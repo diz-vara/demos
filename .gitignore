@@ -35,3 +35,6 @@ train-face-detector-elab/face-dataset/*
 
 person-detector/INRIAPerson.zip
 person-detector/INRIAPerson/*
+*.png
+person-detector/__MACOSX/*
+*.avi

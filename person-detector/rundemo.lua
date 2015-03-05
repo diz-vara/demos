@@ -12,16 +12,16 @@ require 'pl'
 require 'qt'
 require 'qtwidget'
 require 'qtuiloader'
-require 'camera'
+--require 'camera'
 require 'image'
 require 'nnx'
-require 'torchffi'
+require 'torch'
 
 print '==> processing options'
 
 opt = lapp[[
    -c, --camidx   (default 0)             camera index: /dev/videoIDX
-   -n, --network  (default 'model.net')   path to networkimage.
+   -n, --network  (default 'results/model.net')   path to networkimage.
    -t, --threads  (default 8)             number of threads
        --HD       (default true)          high resolution camera
 ]]

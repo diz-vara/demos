@@ -41,12 +41,12 @@ end
 ----------------------------------------------------------------------
 -- load or generate new dataset:
 
-if paths.filep('train.t7') 
-   and paths.filep('test.t7') then
+if paths.filep('trainN.t7') 
+   and paths.filep('testN.t7') then
 
    print(sys.COLORS.red ..  '==> loading previously generated dataset:')
-   trainData = torch.load('train.t7')
-   testData = torch.load('test.t7')
+   trainData = torch.load('trainN.t7')
+   testData = torch.load('testN.t7')
 
    trSize = trainData.data:size(1)
    teSize = testData.data:size(1)
@@ -56,9 +56,9 @@ else
    print(sys.COLORS.red ..  '==> creating a new dataset from raw files:')
 
    -- video dataset to get background from:
-   local dspath = 'INRIAPerson/bg.m4v'
-   local source = ffmpeg.Video{path=dspath, width=284/2, height=160/2, encoding='png', 
-   		fps=30, lenght=100, delete=false, load=false}
+   local dspath = 'INRIAPerson/noSigns_33s.avi' --'INRIAPerson/bg.m4v'
+   local source = ffmpeg.Video{path=dspath, width=1920/5, height=1080/5, encoding='png', 
+               fps=30, lenght=100, delete=false, load=false}
 
    local rawFrame = source:forward()
    -- input video params:
@@ -137,8 +137,8 @@ else
        image.display{image=testData.data[{{1,128}}], nrow=16, zoom=2, legend = 'Test Data'}
    end
    --save created dataset:
-   torch.save('train.t7',trainData)
-   torch.save('test.t7',testData)
+   torch.save('trainN.t7',trainData)
+   torch.save('testN.t7',testData)
 end
 
 -- Displaying the dataset architecture ---------------------------------------
