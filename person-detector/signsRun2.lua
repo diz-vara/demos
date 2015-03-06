@@ -1,9 +1,8 @@
 ----------------------------------------------------------------------
--- Train a ConvNet on faces.
+-- Train a ConvNet as people detector
 --
--- original: Clement Farabet
--- new version by: E. Culurciello 
--- Mon Oct 14 14:58:50 EDT 2013
+-- E. Culurciello 
+-- Mon June 10 14:58:50 EDT 2014
 ----------------------------------------------------------------------
 
 require 'pl'
@@ -20,15 +19,15 @@ opt = lapp[[
    -d,--learningRateDecay  (default 1e-7)        learning rate decay (in # samples)
    -w,--weightDecay        (default 1e-5)        L2 penalty on the weights
    -m,--momentum           (default 0.1)         momentum
-   -d,--dropout            (default 0.5)         dropout amount
+   -d,--dropout            (default 0.1)         dropout amount
    -b,--batchSize          (default 128)         batch size
    -t,--threads            (default 8)           number of threads
    -p,--type               (default float)       float or cuda
    -i,--devid              (default 1)           device ID (if using CUDA)
-   -s,--size               (default small)       dataset: small or full or extra
+   -s,--size               (default full)       dataset: small or full or extra
    -o,--save               (default results)     save directory
       --patches            (default all)         percentage of samples to use for testing'
-      --visualize          (default true)        visualize dataset
+      --visualize                                visualize dataset
 ]]
 
 -- nb of threads and fixed seed (for repeatable experiments)
@@ -47,9 +46,9 @@ end
 ----------------------------------------------------------------------
 print(sys.COLORS.red ..  '==> load modules')
 
-local data  = require 'data'
-local train = require 'train'
-local test  = require 'test'
+local data  = require 'signsData'
+local train = require 'signsTrain'
+local test  = require 'signsTest'
 
 ----------------------------------------------------------------------
 print(sys.COLORS.red .. '==> training!')
@@ -58,4 +57,3 @@ while true do
    train(data.trainData)
    test(data.testData)
 end
-

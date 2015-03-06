@@ -1,0 +1,17 @@
+-- selects Background (if Lbk == 2) 
+-- or signs (if Lbl == 1)
+Lbl = 1
+sz=trainData.data:size()
+bgNum=trainData.labels:eq(Lbl):sum()
+
+sgImages=torch.Tensor(bgNum,sz[2],sz[3],sz[4])
+bgCnt = 1; 
+
+for i = 1,trSize,1 do
+   if trainData.labels[i] == Lbl then
+      sgImages[bgCnt] = trainData.data[i];
+      bgCnt = bgCnt + 1;
+   end
+end
+
+   

@@ -56,7 +56,7 @@ function prune(detections)
      for j, prune in ipairs(pruned) do
        -- if two detections left top corners are in close proximity discard one
        -- 50 is a proximity threshold can be changed 
-       if (torch.abs(prune.x-detect.x)+torch.abs(prune.y-detect.y)<50) then
+       if (torch.abs(prune.x-detect.x)+torch.abs(prune.y-detect.y)<32) then
         duplicate = 1
        end
      end
@@ -81,7 +81,7 @@ classifier = nn.SpatialClassifier(classifier1)
      network:add(classifier)
 --]]--
 network_fov = 16
-network_sub = 1
+network_sub = 2
 
 print('Neural Network used: \n', network) -- print final network
 
@@ -101,7 +101,7 @@ vid = ffmpeg.Video{path='e:/data/eu/video/cuts/img_2401.avi',fps=30,length=10,wi
 
 
 -- process input at multiple scales
-scales = {1, 0.75} --{0.5, 0.4, 0.3} --, 0.24, 0.192, 0.15}
+scales = {1, 0.5} --, 0.82, 0.75} --{0.5, 0.4, 0.3} --, 0.24, 0.192, 0.15}
 
 -- use a pyramid packer/unpacker
 require 'PyramidPacker'
@@ -117,13 +117,17 @@ end
 
 -- profiler
 p = xlua.Profiler()
+frame = torch.Tensor(1,270,480);
+
+winms = nil;
+windist= nil;
 
 cnt = 1;
 -- process function
 function process()
    print("frame: " .. cnt);
    -- (1) grab frame
-   frame = vid[1][cnt] --camera:forward()
+   frame[1] = image.rgb2yuv(vid[1][cnt])[3] --camera:forward()
    cnt = cnt+1
 
    -- (2) global normalization:
@@ -140,18 +144,23 @@ function process()
    -- (5) unpack pyramid
    distributions = unpacker:forward(multiscale, coordinates)
    -- (6) parse distributions to extract blob centroids
-   threshold = widget.verticalSlider.value/100
-   print(threshold)
-  
+   threshold = widget.verticalSlider.value/10
+   print("threshold=" .. threshold)
+   
+   winms=image.display{image=multiscale,zoom=2,win=winms,legend='multiscale'}
+   windist=image.display{image=distributions[1][1],zoom=4,win=windist,legend='distributions'}
 
    rawresults = {}
+   ----[[
    -- function FFI:
    for i,distribution in ipairs(distributions) do
       local pdist = torch.data(distribution[1]:contiguous())
       parseFFI(pdist, distribution[1]:size(1), distribution[1]:size(2), threshold, rawresults, scales[i])
    end
+   
 
    -- (7) clean up results
+   print("Nr of results: " .. table.getn(rawresults))
    detections = {}
    for i,res in ipairs(rawresults) do
       local scale = res[3]
@@ -163,6 +172,9 @@ function process()
    end
 
    detections = prune(detections)
+   
+   --]]
+
 end
 
 -- display function
@@ -199,8 +211,8 @@ qt.connect(timer,
               p:lap('display')
               timer:start()
               p:lap('full loop')
-              --p:printAll()
+              p:printAll()
            end)
-widget.windowTitle = 'e-Lab People Detector'
+widget.windowTitle = 'e-Lab Sign Detector'
 widget:show()
 timer:start()

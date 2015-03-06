@@ -15,12 +15,12 @@ print(sys.COLORS.red ..  '==> define parameters')
 local noutputs = 2
 
 -- input dimensions:
-local nfeats = 3
+local nfeats = 1
 local width = 16
 local height = 16
 
 -- hidden units, filter sizes (for ConvNet only):
-local nstates = {32,64,64}
+local nstates = {16,32,32}
 local filtsize = {7,5}
 local poolsize = 2
 
@@ -31,9 +31,9 @@ print(sys.COLORS.red ..  '==> construct CNN')
 local CNN = nn.Sequential()
 
 -- stage 1:
-CNN:add(nn.SpatialConvolutionMM(nfeats, nstates[1], filtsize[1], filtsize[1]))--,poolsize,poolsize))
+CNN:add(nn.SpatialConvolutionMM(nfeats, nstates[1], filtsize[1], filtsize[1],poolsize,poolsize))
 CNN:add(nn.ReLU())
-CNN:add(nn.SpatialMaxPooling(poolsize,poolsize,poolsize,poolsize))
+--CNN:add(nn.SpatialMaxPooling(poolsize,poolsize,poolsize,poolsize))
 
 -- stage 2:
 CNN:add(nn.SpatialConvolutionMM(nstates[1], nstates[2], filtsize[2], filtsize[2]))

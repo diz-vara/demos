@@ -9,7 +9,7 @@ local function getSizesTbl(net)
       kw = net.modules[i].kW
       kh = net.modules[i].kH
       if((dw ~= nil)and(dh ~= nil)and(kw ~= nil) and(kh ~= nil)) then 
-	 table.insert(sizes_tbl, {kw=kw,kh=kh,dw=dw,dh=dh})
+         table.insert(sizes_tbl, {kw=kw,kh=kh,dw=dw,dh=dh})
       end
    end
 
@@ -84,10 +84,10 @@ end
 function PyramidUnPacker:forward(input, coordinates)
    self.out_tbl = {}
    self.coordinates = coordinates
-   self.step_width = 4 
-   self.step_height = 4
-   self.ker_width = 46 -- size of CNN eye
-   self.ker_height = 46
+   self.step_width = 2
+   self.step_height = 2
+   self.ker_width = 64 -- size of CNN eye
+   self.ker_height = 64
    for i = 1, self.coordinates:size(1) do
       local start_x = math.floor((self.coordinates[i][1] - 1)/self.step_width) + 1
       local start_y = math.floor((self.coordinates[i][2] - 1)/self.step_height) + 1
