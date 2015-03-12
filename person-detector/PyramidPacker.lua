@@ -146,11 +146,14 @@ function PyramidPacker:__init(network, scales)
 
    self.output = torch.Tensor(1,1,1)
    self.output:fill(0)
+   
+   print("Packer init: " .. self.step_width);
+   
 end
 
 function PyramidPacker:forward(input)
-   self.step_height = 4
-   self.step_width = 4
+   self.step_height = 2
+   self.step_width = 2
    if ((input:size(3) ~= self.dim_width) or (input:size(2) ~= self.dim_height)) then
       self.dim_height = input:size(2)
       self.dim_width = input:size(3)

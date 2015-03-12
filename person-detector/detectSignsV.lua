@@ -101,7 +101,7 @@ vid = ffmpeg.Video{path='e:/data/eu/video/cuts/img_2401.avi',fps=30,length=10,wi
 
 
 -- process input at multiple scales
-scales = {1, 0.5} --, 0.82, 0.75} --{0.5, 0.4, 0.3} --, 0.24, 0.192, 0.15}
+scales = {1, 0.5} --{0.5, 0.4, 0.3} --, 0.24, 0.192, 0.15}
 
 -- use a pyramid packer/unpacker
 require 'PyramidPacker'
@@ -144,7 +144,7 @@ function process()
    -- (5) unpack pyramid
    distributions = unpacker:forward(multiscale, coordinates)
    -- (6) parse distributions to extract blob centroids
-   threshold = widget.verticalSlider.value/10
+   threshold = widget.verticalSlider.value/5
    print("threshold=" .. threshold)
    
    winms=image.display{image=multiscale,zoom=2,win=winms,legend='multiscale'}

@@ -13,7 +13,7 @@ require 'optim'   -- an optimization package, for online and batch methods
 print(sys.COLORS.red .. '==> defining some tools')
 
 -- model:
-local t = require 'signsModelV'
+local t = require 'signsModelV16'
 local model = t.model
 local loss = t.loss
 

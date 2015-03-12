@@ -21,7 +21,7 @@ local height = 16
 
 -- hidden units, filter sizes (for ConvNet only):
 local nstates = {4,6,4}
-local filtsize = {7,3}
+local filtsize = {7,5}
 local poolsize = 2
 
 ----------------------------------------------------------------------

@@ -79,6 +79,7 @@ function PyramidUnPacker:__init(network)
    -- infer params from given net
    self.step_width, self.step_height, self.ker_width, self.ker_height
       = getGlobalSizes({sizes_tbl=getSizesTbl(network)})
+   print("UnPacker init: " .. self.step_width);
 end
 
 function PyramidUnPacker:forward(input, coordinates)
